@@ -12,8 +12,25 @@ import acm.graphics.*;
 public class Images implements ImageConversions {
 
     public GImage flipHorizontal(GImage source) {
-        // TODO
-        return null;
+    	
+    	int[][] pixelArray = source.getPixelArray();
+    	int[][] newPixelArray = new int[pixelArray.length][pixelArray[0].length];
+    	int r = 0, b = 0, g = 0;
+    	
+    	for (int row = 0; row < pixelArray.length; row++) {
+    		for (int col = 0; col < pixelArray[row].length; col++) {
+    			
+    			r= GImage.getRed(pixelArray[row][col]);
+		   		g= GImage.getGreen(pixelArray[row][col]);
+		   		b= GImage.getBlue(pixelArray[row][col]);
+    			
+		   		newPixelArray[row][(pixelArray[row].length-1)-col] = GImage.createRGBPixel(r, g, b);
+    		}
+    	}
+    	
+    	source.setPixelArray(newPixelArray);
+    	return source;
+    	
     }
 
     public GImage rotateLeft(GImage source) {
@@ -22,8 +39,28 @@ public class Images implements ImageConversions {
     }
 
     public GImage rotateRight(GImage source) {
-        // TODO
-        return null;
+    	
+        int[][] pixelArray = source.getPixelArray();
+        int[][] newPixelArray = new int[pixelArray[0].length][pixelArray.length];
+        int colIndex = 0;
+        int rowIndex = 0;
+        int r = 0, b = 0, g = 0;
+        
+        for (int row = 0; row < pixelArray.length; row++) {
+        	for (int col = 0; col < pixelArray[row].length; col++) {
+        		r= GImage.getRed(pixelArray[row][col]);
+		   		g= GImage.getGreen(pixelArray[row][col]);
+		   		b= GImage.getBlue(pixelArray[row][col]);
+		   		
+		   		newPixelArray[rowIndex][(pixelArray.length-1)-colIndex] = GImage.createRGBPixel(r, g, b);
+		   		
+		   		rowIndex++;
+        	}
+        	rowIndex = 0;
+        	colIndex++;
+        }
+        source.setPixelArray(newPixelArray);
+    	return source;
     }
 
     public GImage greenScreen(GImage source) {
@@ -89,7 +126,48 @@ public class Images implements ImageConversions {
     }
 
     public GImage blur(GImage source) {
-        // TODO
-        return null;
+    	
+        int [][] pixelArray = source.getPixelArray();
+        int[][] newPixelArray = new int[pixelArray.length][pixelArray[0].length];
+        int [] indexPoints = {-1,0,1};
+        int blurFactor = 9;
+        int r = 0, b = 0, g = 0;
+        
+        for (int row = 0; row < pixelArray.length; row++) {
+        	for (int col = 0; col < pixelArray[row].length; col++) {
+        		
+        		double rTotal = 0;
+        		double gTotal = 0;
+        		double bTotal = 0;
+        		
+        		for (int i = 0; i < indexPoints.length; i++) {
+        			for (int j = 0; j < indexPoints.length; j++) {
+        				if (((row+indexPoints[i] >= 0) && (col+indexPoints[j] >= 0)) && (((col+indexPoints[j]) < pixelArray[row].length) && (row+indexPoints[i] < pixelArray.length))) {
+        					
+        					r= GImage.getRed(pixelArray[row+indexPoints[i]][col+indexPoints[j]]);
+        			   		g= GImage.getGreen(pixelArray[row+indexPoints[i]][col+indexPoints[j]]);
+        			   		b= GImage.getBlue(pixelArray[row+indexPoints[i]][col+indexPoints[j]]);
+        			   		
+        			   		rTotal = rTotal + r;
+        			   		gTotal = gTotal + g;
+        			   		bTotal = bTotal + b;
+        				}
+        			}
+        		}
+        		
+        		int rValue = (int) Math.floor(rTotal/blurFactor);
+        		int gValue = (int) Math.floor(gTotal/blurFactor);
+        		int bValue = (int) Math.floor(bTotal/blurFactor);
+        		
+        		newPixelArray[row][col] = GImage.createRGBPixel(rValue, gValue, bValue);
+        		rTotal = 0;
+        		gTotal = 0;
+        		bTotal = 0;
+        		
+        	}
+        }
+        
+        source.setPixelArray(newPixelArray);
+    	return source;
     }
 }
