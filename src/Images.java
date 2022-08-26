@@ -133,8 +133,26 @@ public class Images implements ImageConversions {
     }
 
     public GImage translate(GImage source, int dx, int dy) {
-        // TODO
-        return null;
+     //   Im so sorry I didnt know there was a commit changes button and didnt save anything to the git hub tho the code is still on my computer in comp sci
+     //  we can definitly get it done monday so dont worry about doing it on the weekend sorry -Joaquin (im just puttting down what I remember dont worry about finishing it)
+	    int [][] pixelArray = source.getPixelArray();
+	    int[][] newPixelArray = new int[pixelArray.length][pixelArray[0].length];	
+	    int TX =0;
+	    int TY =0;    
+		    for (int row = 0; row < pixelArray.length; row++) {
+        	for (int col = 0; col < pixelArray[0].length; col++) {	
+		
+	//	TX =(TX+row) > pixelArray.length-1? i got noclue: TX+row
+	//	TX =(TX+col) > pixelArray.length-1? i got noclue: TX+col
+		
+		
+		}
+	}
+			
+		
+		
+	source.setPixelArray(newPixelArray);	
+        return source;
     }
 
     public GImage blur(GImage source) {
