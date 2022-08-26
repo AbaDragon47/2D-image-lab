@@ -35,7 +35,19 @@ public class Images implements ImageConversions {
 
     public GImage rotateLeft(GImage source) {
         // TODO
-        return null;
+	int[][] ori=source.getPixelArray();
+    	
+    	int[][] a= new int[ori[0].length][ori.length];
+    	for(int x=0; x<a.length;x++) {
+    		for(int y=0;y<a[x].length;y++) {
+		   	// a[x][y]=ori[a[0].length-y-1][x];
+    			a[a[0].length-y-1][x]=ori[x][y];
+		   		 
+    		}
+    	}
+    	source.setPixelArray(a);
+
+        return source;
     }
 
     public GImage rotateRight(GImage source) {
